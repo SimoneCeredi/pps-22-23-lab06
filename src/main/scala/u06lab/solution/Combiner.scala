@@ -29,7 +29,7 @@ trait Functions:
 //
 //  override def max(a: List[Int]): Int = combine(a)
 //
-//  def combine[T: Combiner](a: List[T]): T = a.foldLeft(summon[Combiner[T]].unit)((t, el) => summon[Combiner[T]].combine(t, el))
+//  private def combine[T: Combiner](a: List[T]): T = a.foldLeft(summon[Combiner[T]].unit)((t, el) => summon[Combiner[T]].combine(t, el))
 
 
 object FunctionsImpl extends Functions:
@@ -42,7 +42,7 @@ object FunctionsImpl extends Functions:
 
   override def max(a: List[Int]): Int = combine(a)
 
-  def combine[T](a: List[T])(using combiner: Combiner[T]): T = a.foldLeft(combiner.unit)((t, el) => combiner.combine(t, el))
+  private def combine[T](a: List[T])(using combiner: Combiner[T]): T = a.foldLeft(combiner.unit)((t, el) => combiner.combine(t, el))
 
 /*
  * 2) To apply DRY principle at the best,
