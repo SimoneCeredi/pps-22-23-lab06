@@ -19,6 +19,19 @@ trait Functions:
 //
 //  override def max(a: List[Int]): Int = a.fold(Int.MinValue)((min, el) => if el < min then el else min)
 
+//object FunctionsImpl extends Functions:
+//
+//  import GivenCombiners.given
+//
+//  override def sum(a: List[Double]): Double = combine(a)
+//
+//  override def concat(a: Seq[String]): String = combine(a.toList)
+//
+//  override def max(a: List[Int]): Int = combine(a)
+//
+//  def combine[T: Combiner](a: List[T]): T = a.foldLeft(summon[Combiner[T]].unit)((t, el) => summon[Combiner[T]].combine(t, el))
+
+
 object FunctionsImpl extends Functions:
 
   import GivenCombiners.given
@@ -29,7 +42,7 @@ object FunctionsImpl extends Functions:
 
   override def max(a: List[Int]): Int = combine(a)
 
-  def combine[T: Combiner](a: List[T]): T = a.foldLeft(summon[Combiner[T]].unit)((t, el) => summon[Combiner[T]].combine(t, el))
+  def combine[T](a: List[T])(using combiner: Combiner[T]): T = a.foldLeft(combiner.unit)((t, el) => combiner.combine(t, el))
 
 /*
  * 2) To apply DRY principle at the best,
