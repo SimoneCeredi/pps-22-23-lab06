@@ -10,11 +10,11 @@ trait Functions:
   def max(a: List[Int]): Int // gives Int.MinValue if a is empty
 
 object FunctionsImpl extends Functions:
-  override def sum(a: List[Double]): Double = a.sum
+  override def sum(a: List[Double]): Double = a.foldLeft(0.0)((t, el) => t + el)
 
   override def concat(a: Seq[String]): String = a.fold("")((tot, n) => tot ++ n)
 
-  override def max(a: List[Int]): Int = if a.isEmpty then Int.MinValue else a.max
+  override def max(a: List[Int]): Int = a.fold(Int.MinValue)((min, el) => if el < min then el else min)
 
 /*
  * 2) To apply DRY principle at the best,
