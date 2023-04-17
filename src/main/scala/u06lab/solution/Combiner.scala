@@ -1,5 +1,7 @@
 package u06lab.solution
 
+import scala.collection.Seq
+
 /** 1) Implement trait Functions with an object FunctionsImpl such that the code in TryFunctions works correctly. */
 
 trait Functions:
@@ -9,12 +11,25 @@ trait Functions:
 
   def max(a: List[Int]): Int // gives Int.MinValue if a is empty
 
+
+//object FunctionsImpl extends Functions:
+//  override def sum(a: List[Double]): Double = a.foldLeft(0.0)((t, el) => t + el)
+//
+//  override def concat(a: Seq[String]): String = a.fold("")((tot, n) => tot ++ n)
+//
+//  override def max(a: List[Int]): Int = a.fold(Int.MinValue)((min, el) => if el < min then el else min)
+
 object FunctionsImpl extends Functions:
-  override def sum(a: List[Double]): Double = a.foldLeft(0.0)((t, el) => t + el)
 
-  override def concat(a: Seq[String]): String = a.fold("")((tot, n) => tot ++ n)
+  import GivenCombiners.given
 
-  override def max(a: List[Int]): Int = a.fold(Int.MinValue)((min, el) => if el < min then el else min)
+  override def sum(a: List[Double]): Double = combine(a)
+
+  override def concat(a: Seq[String]): String = combine(a.toList)
+
+  override def max(a: List[Int]): Int = combine(a)
+
+  def combine[T: Combiner](a: List[T]): T = a.foldLeft(summon[Combiner[T]].unit)((t, el) => summon[Combiner[T]].combine(t, el))
 
 /*
  * 2) To apply DRY principle at the best,
@@ -28,6 +43,23 @@ object FunctionsImpl extends Functions:
  *
  * When all works, note we completely avoided duplications..
  */
+
+object GivenCombiners:
+  given Combiner[Double] with
+    override def unit: Double = 0.0
+
+    override def combine(a: Double, b: Double): Double = a + b
+
+  given Combiner[String] with
+    override def unit: String = ""
+
+    override def combine(a: String, b: String): String = a ++ b
+
+  given Combiner[Int] with
+    override def unit: Int = Int.MinValue
+
+    override def combine(a: Int, b: Int): Int = if a > b then a else b
+
 
 trait Combiner[A]:
   def unit: A
