@@ -1,4 +1,4 @@
-package u06lab.solution
+package u06lab.mandatory
 
 object Solitaire extends App:
   type Mark = (Int, Int)

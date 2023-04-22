@@ -1,4 +1,4 @@
-package u06lab.solution
+package u06lab.mandatory
 
 import org.junit.Assert.*
 import org.junit.Test

@@ -1,17 +1,20 @@
-package u06lab.solution
+package u06lab.optional
 
 import java.util.OptionalInt
 
 // Optional!
 object ConnectThree extends App:
   val bound = 3
+
   enum Player:
     case X, O
+
     def other: Player = this match
       case X => O
       case _ => X
 
   case class Disk(x: Int, y: Int, player: Player)
+
   /**
    * Board:
    * y
@@ -20,7 +23,7 @@ object ConnectThree extends App:
    * 2
    * 1
    * 0
-   *   0 1 2 3 <-- x
+   * 0 1 2 3 <-- x
    */
   type Board = Seq[Disk]
   type Game = Seq[Board]
@@ -71,7 +74,7 @@ object ConnectThree extends App:
   // ...X .... .... ....
   // ...O ..XO .X.O X..O
   println("EX 3: ")
-// Exercise 3 (ADVANCED!): implement computeAnyGame such that..
+  // Exercise 3 (ADVANCED!): implement computeAnyGame such that..
   computeAnyGame(O, 4).foreach { g =>
     printBoards(g)
     println()

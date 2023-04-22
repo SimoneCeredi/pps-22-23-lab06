@@ -1,4 +1,4 @@
-package u06lab.solution
+package u06lab.mandatory
 
 import scala.collection.Seq
 
