@@ -30,9 +30,9 @@ object ConnectThree extends App:
 
   import Player.*
 
-  def find(board: Board, x: Int, y: Int): Option[Player] = ???
+  def find(board: Board, x: Int, y: Int): Option[Player] = board collectFirst { case Disk(`x`, `y`, player) => player }
 
-  def firstAvailableRow(board: Board, x: Int): Option[Int] = ???
+  def firstAvailableRow(board: Board, x: Int): Option[Int] = (0 to bound) find (y => !board.exists { case Disk(`x`, `y`, _) => true; case _ => false })
 
   def placeAnyDisk(board: Board, player: Player): Seq[Board] = ???
 
