@@ -34,7 +34,14 @@ object ConnectThree extends App:
 
   def firstAvailableRow(board: Board, x: Int): Option[Int] = (0 to bound) find (y => !board.exists { case Disk(`x`, `y`, _) => true; case _ => false })
 
-  def placeAnyDisk(board: Board, player: Player): Seq[Board] = ???
+  def placeAnyDisk(board: Board, player: Player): Seq[Board] =
+    for
+      x <- 0 to bound
+      y = firstAvailableRow(board, x)
+      if y.nonEmpty
+    yield
+      board :+ Disk(x, y.get, player)
+
 
   def computeAnyGame(player: Player, moves: Int): LazyList[Game] = ???
 
